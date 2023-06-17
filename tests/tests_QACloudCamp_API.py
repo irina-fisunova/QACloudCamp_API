@@ -1,14 +1,11 @@
-import os
-from api import QACloudCampApi
+from api import get_posts, new_post, delete_post
 from settings import create_data
 
 
 class TestQACloudCampApi:
-    def setup(self):
-        self.posts_api = QACloudCampApi
 
-    def test_get_all_posts(self):
-        response_data = self.posts_api.get_all_posts(self)
+    def test_get_posts(self):
+        response_data = get_posts()
         length = len(response_data['result'])
 
         assert response_data['status'] == 200
@@ -23,8 +20,8 @@ class TestQACloudCampApi:
             assert 'userId' in post
             assert isinstance(post['userId'], int)
 
-    def test_post_new_post(self):
-        response_data = self.posts_api.post_new_post(self, create_data)
+    def test_new_post(self):
+        response_data = new_post(create_data)
 
         assert response_data['status'] == 201
 
@@ -38,9 +35,8 @@ class TestQACloudCampApi:
         assert create_data['userId'] == response_data['result']['userId']
 
     def test_delete_post(self):
-        response_data = self.posts_api.post_new_post(self, create_data)
-        print(response_data['result']['id'])
+        response_data = new_post(create_data)
         res_id = response_data['result']['id']
-        response_data_del = self.posts_api.delete_post(self, res_id)
+        response_data_del = delete_post(res_id)
 
         assert response_data_del['status'] == 200

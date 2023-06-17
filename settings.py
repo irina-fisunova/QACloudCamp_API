@@ -1,5 +1,3 @@
-import os
-
 url = 'https://jsonplaceholder.typicode.com/posts'
 
 headers = {
